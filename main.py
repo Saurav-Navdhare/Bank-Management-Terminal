@@ -1,5 +1,5 @@
 import Employee_end as Ee
-
+from prettytable import from_db_cursor
 while(True):
     a = input('''Main Menu\n
         1 - New User
@@ -40,8 +40,7 @@ while(True):
             b = '%'+input("\nEnter name of account Holder\n")+'%'
             c = Ee.select_account(b)
             if(c[0]):
-                print("\nAccount_Number   Name    Email     Balance\n")
-                print(Ee.account_details(c[1]))
+                Ee.account_details(c[1])
                 e = input(
                     '\nPress y to do again else press any key to main menu\n').lower()
                 if(e != 'y'):
@@ -55,7 +54,7 @@ while(True):
 
     if(a == 3):
         z = 0
-        while(z == 0):
+        while(z == 0 or z == 2):
             b = input(
                 "\nEnter \n1. For Bank to Bank Transaction \n2. For Cash Withdrawal \n3. For Cash Deposit\nElse any key to Main Menu\n")            
             if not(b.isdigit()):
@@ -64,49 +63,47 @@ while(True):
                 break
             if(int(b) == 1):
                 c = input("\nEnter Amount in Rupees to transfer\n")
-                if not(c.isdigit()):
+                if (c.isdigit() is False):
                     print("\nPlease Enter amount in digits only\n")
-                    e = input(
-                        '\nPress Y to do again else press any key to main menu\n').lower()
-                    if(e != 'y'):
-                        z = 1
-                        continue
-                if(len(c) >= 10):
-                    print("\nKindly Enter a small amount\n")
-                    e = input(
-                        '\nPress Y to do again else press any key to main menu\n').lower()
-                    if(e != 'y'):
-                        z = 1
-                        continue
+                    continue
                 else:
+                    z = 0
                     c = int(c)
-                d = '%'+input("\nEnter name of Sender's\n")+'%'
-                m = Ee.select_account(d)
-                if(m[0]):
-                    e = '%'+input("\nEnter name of Beneficiar's\n")+'%'
-                    n = Ee.select_account(e)
-                    if(n[0]):
-                        f = Ee.trans(c, 1, m[1], n[1])
-                        print(f)
-                        e = input(
-                            '\nPress y to do again else press any key to Main Menu\n').lower()
-                        if(e != 'y'):
-                            z = 1
-                            continue
+                if(z == 0):
+                    d = '%'+input("\nEnter name of Sender's\n")+'%'
+                    m = Ee.select_account(d)
+                    if(m[0]):
+                        e = '%'+input("\nEnter name of Beneficiar's\n")+'%'
+                        n = Ee.select_account(e)
+                        if(n[0]):
+                            f = Ee.trans(c, 1, m[1], n[1])
+                            print(f)
+                            e = input(
+                                '\nPress y to do again else press any key to Main Menu\n').lower()
+                            if(e != 'y'):
+                                z = 1
+                                continue
+                        else:
+                            print(n[1])
+                            e = input(
+                                '\nPress y to do again else press any key to Main Menu\n').lower()
+                            if(e != 'y'):
+                                z = 1
+                                continue
                     else:
-                        print(n[1])
+                        print(m[1])
                         e = input(
                             '\nPress y to do again else press any key to Main Menu\n').lower()
                         if(e != 'y'):
                             z = 1
                             continue
                 else:
-                    print(m[1])
                     e = input(
-                        '\nPress y to do again else press any key to Main Menu\n').lower()
+                        '\nPress Y to do again else press any key to main menu\n').lower()
                     if(e != 'y'):
-                        z = 1
-                        continue
+                        break
+                    else:
+                        z = 0
             elif(int(b) == 2):
                 c = input("\nEnter Amount in Rupees to transfer\n")
                 if not(c.isdigit()):
@@ -116,24 +113,30 @@ while(True):
                     if(e != 'y'):
                         z = 1
                         continue
-                c = int(c)
-                d = '%'+input("\nEnter name of Beneficiar\n")+'%'
-                e = Ee.select_account(d)
-                if(e[0]):
-                    f = Ee.trans(c, 2, e[1])
-                    print(f)
-                    e = input(
-                        '\nPress y to do again else press any key to Main Menu\n').lower()
-                    if(e != 'y'):
-                        z = 1
+                    else:
+                        z = 2
                         continue
                 else:
-                    print(e[1])
-                    e = input(
-                        '\nPress y to do again else press any key to Main Menu\n').lower()
-                    if(e != 'y'):
-                        z = 1
-                        continue
+                    z = 0
+                if(z == 0):
+                    c = int(c)
+                    d = '%'+input("\nEnter name of Sender\n")+'%'
+                    e = Ee.select_account(d)
+                    if(e[0]):
+                        f = Ee.trans(c, 2, e[1])
+                        print(f)
+                        e = input(
+                            '\nPress y to do again else press any key to Main Menu\n').lower()
+                        if(e != 'y'):
+                            z = 1
+                            continue
+                    else:
+                        print(e[1])
+                        e = input(
+                            '\nPress y to do again else press any key to Main Menu\n').lower()
+                        if(e != 'y'):
+                            z = 1
+                            continue
             elif(int(b) == 3):
                 c = input("\nEnter Amount in Rupees to transfer\n")
                 if not(c.isdigit()):
@@ -170,35 +173,9 @@ while(True):
             c = Ee.select_account(b)
             if(c[0]):
                 d = Ee.trans_history(c[1])
-                if(d[0]):
-                    k, x, y = 0, 0, 0
-                    for i in d[1]:
-                        for j in i:
-                            if(k == 0 or x == 0):
-                                print(
-                                    '\ntransid, sender, beneficiary, date, amount\n')
-                            print(j, end='')
-                            if(y == 0):
-                                k += 1
-                            else:
-                                x += 1
-                        print('\n')
-                        y += 1
-                    if(k == 0 and x == 0):
-                        print("\nNo History Founded\n")
-                        e = input(
-                            '\nPress y to do again else press any key to Main Menu\n').lower()
-                        if(e != 'y'):
-                            z = 1
-                            break
-                    else:
-                        e = input(
-                            '\nPress y to do again else press any key to Main Menu\n').lower()
-                        if(e != 'y'):
-                            z = 1
-                            break
-                else:
+                if not(d[0]):
                     print(d[1])
+                else:
                     e = input(
                         '\nPress y to do again else press any key to Main Menu\n').lower()
                     if(e != 'y'):
