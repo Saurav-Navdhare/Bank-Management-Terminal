@@ -1,5 +1,10 @@
 import Employee_end as Ee
 from prettytable import from_db_cursor
+
+query1 = '\nPress y to do again else press any key to main menu\n'
+query2 = "\nEnter Amount in Rupees to transfer\n"
+query3 = "\nPlease Enter amount in digits only\n"
+
 while(True):
     a = input('''Main Menu\n
         1 - New User
@@ -29,8 +34,7 @@ while(True):
                 break
             f = Ee.new_user(b, c, d)
             print(f[1])
-            e = input(
-                '\nPress y to do again else press any key to main menu\n').lower()
+            e = input(query1).lower()
             if(e != 'y'):
                 break
 
@@ -41,20 +45,18 @@ while(True):
             c = Ee.select_account(b)
             if(c[0]):
                 Ee.account_details(c[1])
-                e = input(
-                    '\nPress y to do again else press any key to main menu\n').lower()
+                e = input(query1).lower()
                 if(e != 'y'):
                     z = 1
             else:
                 print(c[1])
-                e = input(
-                    '\nPress y to do again else press any key to main menu\n').lower()
+                e = input(query1).lower()
                 if(e != 'y'):
                     z = 1
 
     if(a == 3):
         z = 0
-        while(z == 0 or z == 2):
+        while(z in [0,2]):
             b = input(
                 "\nEnter \n1. For Bank to Bank Transaction \n2. For Cash Withdrawal \n3. For Cash Deposit\nElse any key to Main Menu\n")            
             if not(b.isdigit()):
@@ -62,9 +64,9 @@ while(True):
             if(int(b) not in range(1, 4)):
                 break
             if(int(b) == 1):
-                c = input("\nEnter Amount in Rupees to transfer\n")
+                c = input(query2)
                 if (c.isdigit() is False):
-                    print("\nPlease Enter amount in digits only\n")
+                    print(query3)
                     continue
                 else:
                     z = 0
@@ -79,37 +81,33 @@ while(True):
                             f = Ee.trans(c, 1, m[1], n[1])
                             print(f)
                             e = input(
-                                '\nPress y to do again else press any key to Main Menu\n').lower()
+                                query1).lower()
                             if(e != 'y'):
                                 z = 1
-                                continue
                         else:
                             print(n[1])
-                            e = input(
-                                '\nPress y to do again else press any key to Main Menu\n').lower()
+                            e = input(query1).lower()
                             if(e != 'y'):
                                 z = 1
-                                continue
                     else:
                         print(m[1])
                         e = input(
-                            '\nPress y to do again else press any key to Main Menu\n').lower()
+                           query1).lower()
                         if(e != 'y'):
                             z = 1
-                            continue
                 else:
                     e = input(
-                        '\nPress Y to do again else press any key to main menu\n').lower()
+                       query1).lower()
                     if(e != 'y'):
                         break
                     else:
                         z = 0
             elif(int(b) == 2):
-                c = input("\nEnter Amount in Rupees to transfer\n")
+                c = input(query2)
                 if not(c.isdigit()):
-                    print("\nPlease Enter amount in digits only\n")
+                    print(query3)
                     e = input(
-                        '\nPress y to do again else press any key to Main Menu\n').lower()
+                       query1).lower()
                     if(e != 'y'):
                         z = 1
                         continue
@@ -126,26 +124,23 @@ while(True):
                         f = Ee.trans(c, 2, e[1])
                         print(f)
                         e = input(
-                            '\nPress y to do again else press any key to Main Menu\n').lower()
+                           query1).lower()
                         if(e != 'y'):
                             z = 1
-                            continue
                     else:
                         print(e[1])
                         e = input(
-                            '\nPress y to do again else press any key to Main Menu\n').lower()
+                           query1).lower()
                         if(e != 'y'):
                             z = 1
-                            continue
             elif(int(b) == 3):
-                c = input("\nEnter Amount in Rupees to transfer\n")
+                c = input(query2)
                 if not(c.isdigit()):
-                    print("\nPlease Enter amount in digits only\n")
+                    print(query3)
                     e = input(
-                        '\nPress y to do again else press any key to Main Menu\n').lower()
+                       query1).lower()
                     if(e != 'y'):
                         z = 1
-                        continue
                 else:
                     c = int(c)
                 d = '%'+input("\nEnter name of Beneficiar\n")+'%'
@@ -154,14 +149,13 @@ while(True):
                     f = Ee.trans(c, 3, e[1])
                     print(f)
                     e = input(
-                        '\nPress y to do again else press any key to Main Menu\n').lower()
+                       query1).lower()
                     if(e != 'y'):
                         z = 1
-                        continue
                 else:
                     print(e[1])
                     e = input(
-                        '\nPress y to do again else press any key to Main Menu\n').lower()
+                       query1).lower()
                     if(e != 'y'):
                         z = 1
                         break
@@ -177,14 +171,14 @@ while(True):
                     print(d[1])
                 else:
                     e = input(
-                        '\nPress y to do again else press any key to Main Menu\n').lower()
+                       query1).lower()
                     if(e != 'y'):
                         z = 1
                         break
             else:
                 print(c[1])
                 e = input(
-                    '\nPress y to do again else press any key to Main Menu\n').lower()
+                   query1).lower()
                 if(e != 'y'):
                     z = 1
                     break
@@ -195,12 +189,12 @@ while(True):
             if(c[0]):
                 print(Ee.close_account(c[1]))
                 e = input(
-                    '\nPress y to do again else press any key to Main Menu\n').lower()
+                   query1).lower()
                 if(e != 'y'):
                     break
             else:
                 print(c[1])
                 e = input(
-                    '\nPress y to do again else press any key to Main Menu\n').lower()
+                   query1).lower()
                 if(e != 'y'):
                     break
