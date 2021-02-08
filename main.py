@@ -56,9 +56,9 @@ while(True):
 
     if(a == 3):
         z = 0
-        while(z in [0,2]):
+        while(z in [0, 2]):
             b = input(
-                "\nEnter \n1. For Bank to Bank Transaction \n2. For Cash Withdrawal \n3. For Cash Deposit\nElse any key to Main Menu\n")            
+                "\nEnter \n1. For Bank to Bank Transaction \n2. For Cash Withdrawal \n3. For Cash Deposit\nElse any key to Main Menu\n")
             if not(b.isdigit()):
                 break
             if(int(b) not in range(1, 4)):
@@ -80,8 +80,7 @@ while(True):
                         if(n[0]):
                             f = Ee.trans(c, 1, m[1], n[1])
                             print(f)
-                            e = input(
-                                query1).lower()
+                            e = input(query1).lower()
                             if(e != 'y'):
                                 z = 1
                         else:
@@ -91,13 +90,11 @@ while(True):
                                 z = 1
                     else:
                         print(m[1])
-                        e = input(
-                           query1).lower()
+                        e = input(query1).lower()
                         if(e != 'y'):
                             z = 1
                 else:
-                    e = input(
-                       query1).lower()
+                    e = input(query1).lower()
                     if(e != 'y'):
                         break
                     else:
@@ -106,8 +103,7 @@ while(True):
                 c = input(query2)
                 if not(c.isdigit()):
                     print(query3)
-                    e = input(
-                       query1).lower()
+                    e = input(query1).lower()
                     if(e != 'y'):
                         z = 1
                         continue
@@ -123,22 +119,19 @@ while(True):
                     if(e[0]):
                         f = Ee.trans(c, 2, e[1])
                         print(f)
-                        e = input(
-                           query1).lower()
+                        e = input( query1).lower()
                         if(e != 'y'):
                             z = 1
                     else:
                         print(e[1])
-                        e = input(
-                           query1).lower()
+                        e = input(query1).lower()
                         if(e != 'y'):
                             z = 1
             elif(int(b) == 3):
                 c = input(query2)
                 if not(c.isdigit()):
                     print(query3)
-                    e = input(
-                       query1).lower()
+                    e = input(query1).lower()
                     if(e != 'y'):
                         z = 1
                 else:
@@ -148,14 +141,12 @@ while(True):
                 if(e[0]):
                     f = Ee.trans(c, 3, e[1])
                     print(f)
-                    e = input(
-                       query1).lower()
+                    e = input(query1).lower()
                     if(e != 'y'):
                         z = 1
                 else:
                     print(e[1])
-                    e = input(
-                       query1).lower()
+                    e = input(query1).lower()
                     if(e != 'y'):
                         z = 1
                         break
@@ -170,15 +161,13 @@ while(True):
                 if not(d[0]):
                     print(d[1])
                 else:
-                    e = input(
-                       query1).lower()
+                    e = input(query1).lower()
                     if(e != 'y'):
                         z = 1
                         break
             else:
                 print(c[1])
-                e = input(
-                   query1).lower()
+                e = input(query1).lower()
                 if(e != 'y'):
                     z = 1
                     break
@@ -188,13 +177,11 @@ while(True):
             c = Ee.select_account(b)
             if(c[0]):
                 print(Ee.close_account(c[1]))
-                e = input(
-                   query1).lower()
+                e = input(query1).lower()
                 if(e != 'y'):
                     break
             else:
                 print(c[1])
-                e = input(
-                   query1).lower()
+                e = input(query1).lower()
                 if(e != 'y'):
                     break

@@ -165,13 +165,13 @@ def trans_history(account):
                     if(istransid(account, transid)):
                         mycursor.execute(
                             "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where trans.transid = %s and sender = %s", (transid, account))
-                        if(mycursor.rowcount!=0):
+                        if(mycursor.rowcount != 0):
                             mycursor.execute(
                                 "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where trans.transid = %s and sender = %s", (transid, account))
                             print(from_db_cursor(mycursor))
                         mycursor1.execute(
                             "select transid, sender, beneficiary, date, Beneficiary_amount from trans natural join amount where trans.transid = %s and beneficiary = %s", (transid, account))
-                        if(mycursor1.rowcount!=0):
+                        if(mycursor1.rowcount != 0):
                             mycursor.execute(
                                 "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where trans.transid = %s and sender = %s", (transid, account))
                             print(from_db_cursor(mycursor1))
@@ -216,17 +216,17 @@ def trans_history(account):
                             print("No record Founded")
                         else:
                             mycursor1.execute(
-                        "select transid, sender, beneficiary, date, beneficiary_amount from trans natural join amount where Date = %s and beneficiary = %s", (b[1], account))
+                                "select transid, sender, beneficiary, date, beneficiary_amount from trans natural join amount where Date = %s and beneficiary = %s", (b[1], account))
                             print(from_db_cursor(mycursor1))
                     else:
                         mycursor.execute(
-                        "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where Date = %s and sender = %s", (b[1], account))
+                            "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where Date = %s and sender = %s", (b[1], account))
                         print(from_db_cursor(mycursor))
                         mycursor1.execute(
-                        "select transid, sender, beneficiary, date, beneficiary_amount from trans natural join amount where Date = %s and beneficiary = %s", (b[1], account))
+                            "select transid, sender, beneficiary, date, beneficiary_amount from trans natural join amount where Date = %s and beneficiary = %s", (b[1], account))
                         if(mycursor1.rowcount != 0):
                             mycursor1.execute(
-                        "select transid, sender, beneficiary, date, beneficiary_amount from trans natural join amount where Date = %s and beneficiary = %s", (b[1], account))
+                                "select transid, sender, beneficiary, date, beneficiary_amount from trans natural join amount where Date = %s and beneficiary = %s", (b[1], account))
                             print(from_db_cursor(mycursor1))
                     return (True,)
                 return (False, b[1])
