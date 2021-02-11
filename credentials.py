@@ -1,6 +1,6 @@
 Credentials = {
-    'host': 'Enter your host here',
-    'user': 'Enter your Username Here',
-    'passwd': 'Enter your password here',
-    'database': 'Enter your database name here'
+    'host': 'www.db4free.net',
+    'user': 'bank_management',
+    'passwd': '1234567890',
+    'database': 'sobank'
 }

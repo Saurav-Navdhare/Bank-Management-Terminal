@@ -86,7 +86,7 @@ def trans(amount, mode, account, reciever='Self'):
                     str(account))) - amount, int(check_balance(str(reciever))) + amount))
                 mydb.commit()
                 mycursor1.execute(
-                    "Update user set balance = balance - %s where account = %s", (amount, account))
+                    "Update user set balance = balance - %s and transid = %s where account = %s", (amount, tid, account))
                 mydb.commit()
                 mycursor1.execute(
                     "Update user set balance = balance + %s where account = %s", (amount, reciever))
