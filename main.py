@@ -21,10 +21,21 @@ while(True):
             b = input("\nEnter Name\n")
             c = input("\nEnter Phone number\n")
             d = input("\nEnter Email Id\n")
+            if (b == ""):
+                print("\nKindly Enter Name\n")
+                e = input(query1).lower()
+                if(e != 'y'):
+                    break
+                continue
+            elif(d == ""):
+                print("\nKindly Enter Email\n")
+                e = input(query1).lower()
+                if(e != 'y'):
+                    break
+                continue
             if not(c.isdigit() or len(c) != 10):
                 print("\nKindly enter digits only and/or enter 10 digits only\n")
-                e = input(
-                    '\nPress Y to try once more, else press any key to main menu\n').lower()
+                e = input(query1).lower()
                 if(e != 'y'):
                     break
                 continue
@@ -65,9 +76,13 @@ while(True):
                 break
             if(int(b) == 1):
                 c = input(query2)
-                if (c.isdigit() is False):
+                if (not(c.isdigit()) or c == ""):
                     print(query3)
-                    continue
+                    if(input(query1).lower() != 'y'):
+                        z = 1
+                        break
+                    else:
+                        continue
                 else:
                     z = 0
                     c = int(c)
@@ -129,11 +144,12 @@ while(True):
                             z = 1
             elif(int(b) == 3):
                 c = input(query2)
-                if not(c.isdigit()):
+                if (not(c.isdigit()) or c == ""):
                     print(query3)
                     e = input(query1).lower()
                     if(e != 'y'):
                         z = 1
+                        break
                 else:
                     c = int(c)
                 d = '%'+input("\nEnter name of Beneficiar\n")+'%'

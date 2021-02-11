@@ -69,7 +69,7 @@ def transid(account):
 
 def trans(amount, mode, account, reciever='Self'):
     if(mode == 1):
-        if(str(int(check_balance(str(account)))-1000) >= str(amount)):
+        if(int(check_balance(account))-1000 >= int(amount)):
             if(amount < 1):
                 return "Please Enter Valid Amount"
             mycursor.execute(
@@ -89,7 +89,7 @@ def trans(amount, mode, account, reciever='Self'):
                     "Update user set balance = balance - %s where account = %s", (amount, account))
                 mydb.commit()
                 mycursor1.execute(
-                    "Update user set balance = balance + %s and transid = %s where account = %s", (amount, tid, reciever))
+                    "Update user set balance = balance + %s where account = %s", (amount, reciever))
                 mycursor.execute(query1, (tid, account))
                 mydb.commit()
                 return f"{amount} Rs has been transferred from {account} to {reciever}"
