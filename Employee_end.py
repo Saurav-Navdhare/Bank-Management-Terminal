@@ -1,9 +1,9 @@
-# This File contains all the sql functions requireed in the project including a) Create Account b) Transaction option with Bank -> Bank, Bank-> Customer, Customer -> Bank, c) Transaction History, d) Delete Account
+# This File contains all the sql functions required in the project including a) Create Account b) Transaction option with Bank -> Bank, Bank-> Customer, Customer -> Bank, c) Transaction History, d) Delete Account
 import mysql.connector
 from datetime import date, datetime
 from date_verifier import date_input
 from credentials import Credentials
-from prettytable import from_db_cursor, PrettyTable
+from prettytable import from_db_cursor
 
 query1 = "Update user set transid = %s where account = %s"
 query2 = "insert into amount values(%s,%s,%s)"
@@ -83,13 +83,13 @@ def trans(amount, mode, account, reciever='Self'):
                     account, reciever, tid, date.today().strftime('%Y/%m/%d'), amount))
                 mydb.commit()
                 mycursor.execute(query2, (tid, int(check_balance(
-                    str(account))) - amount, int(check_balance(str(reciever))) + amount))
+                    str(account))) - int(amount), int(check_balance(str(reciever))) + int(amount)))
                 mydb.commit()
-                mycursor1.execute(
-                    "Update user set balance = balance - %s and transid = %s where account = %s", (amount, tid, account))
+                sender_amount = int(check_balance(account))-int(amount)
+                mycursor.execute("Update user set balance = %s and transid = %s where account = %s", (sender_amount, tid, account))
                 mydb.commit()
-                mycursor1.execute(
-                    "Update user set balance = balance + %s where account = %s", (amount, reciever))
+                mycursor.execute(
+                    "Update user set balance = balance + %s where account = %s", (int(check_balance(reciever))+int(amount), reciever))
                 mycursor.execute(query1, (tid, account))
                 mydb.commit()
                 return f"{amount} Rs has been transferred from {account} to {reciever}"
@@ -98,18 +98,17 @@ def trans(amount, mode, account, reciever='Self'):
 
     if(mode == 2):
         tid = transid(account)
-        if(int(check_balance(str(account)))-1000 >= amount):
+        if(int(check_balance(str(account)))-1000 >= int(amount)):
             mycursor.execute("insert into trans values(%s,'self',%s,%s,%s)",
                              (account, tid, date.today().strftime('%Y/%m/%d'), amount))
             mydb.commit()
             mycursor.execute(query2,
-                             (tid, int(check_balance(account))-amount, "Null"))
+                             (tid, int(check_balance(account))-int(amount), "Null"))
             mydb.commit()
+            sender_amount = int(check_balance(account))-int(amount)
             mycursor.execute(
-                "update user set balance = balance -%s where account = %s", (amount, account))
+                "update user set balance = %s and transid = %s where account = %s", (sender_amount, tid, account))
             mydb.commit()
-            mycursor.execute(
-                "update user set balance = balance +%s and transid = %s where account = %s", (amount, tid, reciever))
             mycursor.execute(query1, (tid, account))
             mydb.commit()
             return str(amount) + " Rs has been withdrawn from " + account
@@ -124,7 +123,7 @@ def trans(amount, mode, account, reciever='Self'):
                          (tid, "Null", int(check_balance(str(account)))+int(amount)))
         mydb.commit()
         mycursor.execute(
-            "update user set balance = balance + %s where account = %s", (amount, account))
+            "update user set balance = %s where account = %s", (int(check_balance(account))+int(amount), account))
         mydb.commit()
         mycursor.execute(
             "update user set transid = %s where account = %s", (tid, account))

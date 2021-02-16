@@ -1,5 +1,4 @@
 import Employee_end as Ee
-from prettytable import from_db_cursor
 
 query1 = '\nPress y to do again else press any key to main menu\n'
 query2 = "\nEnter Amount in Rupees to transfer\n"
@@ -134,7 +133,7 @@ while(True):
                     if(e[0]):
                         f = Ee.trans(c, 2, e[1])
                         print(f)
-                        e = input( query1).lower()
+                        e = input(query1).lower()
                         if(e != 'y'):
                             z = 1
                     else:

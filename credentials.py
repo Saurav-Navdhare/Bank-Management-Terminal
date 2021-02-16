@@ -1,6 +1,6 @@
 Credentials = {
-    'host': 'Enter your host here',
-    'user': 'Enter your User here',
-    'passwd': 'Enter your Password here',
-    'database': 'Enter your database name here'
+    'host': 'Enter your host Here',
+    'user': 'Enter your User Here',
+    'passwd': 'Enter your passwd here',
+    'database': 'Enter your database here'
 }
