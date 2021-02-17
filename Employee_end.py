@@ -1,9 +1,11 @@
 # This File contains all the sql functions required in the project including a) Create Account b) Transaction option with Bank -> Bank, Bank-> Customer, Customer -> Bank, c) Transaction History, d) Delete Account
 import mysql.connector
 from datetime import date, datetime
+
+import prettytable
 from date_verifier import date_input
 from credentials import Credentials
-from prettytable import from_db_cursor
+from prettytable import from_db_cursor, PrettyTable
 
 query1 = "Update user set transid = %s where account = %s"
 query2 = "insert into amount values(%s,%s,%s)"
@@ -26,7 +28,7 @@ def check_details(email):
     if(mycursor):
         for j in mycursor:
             if(email in j):
-                return (False, 'Email Already Exists in database')
+                return (False, 'Email Already Exists in database kindly enter other Email')
     return (True,)
 
 def new_user(name, phone, email):
@@ -89,7 +91,7 @@ def trans(amount, mode, account, reciever='Self'):
                 mycursor.execute("Update user set balance = balance + %s where account = %s", (int(amount), reciever))
                 mycursor.execute(query1, (tid, account))
                 mydb.commit()
-                return f"{amount} Rs has been transferred from {account} to {reciever}"
+                return f"{amount} Rs has been transferred from {account} to {reciever} with transaction id {tid}"
             return "Transaction is Aborted"
         return "Insufficient Balance"
 
@@ -146,105 +148,103 @@ def istransid(account, transid):
     return False
 
 def trans_history(account):
-    while(True):
-        a = input("Enter \n1. For only Transid Searched Transaction \n2. For Transaction between Specific Date Range \n3. For Transaction Made on a day\n")
-        if(a.isdigit()):
-            a = int(a)
-            if(a in range(1, 4)):
-                if(a == 1):
-                    transid = input("Enter transid\n")
-                    if(istransid(account, transid)):
-                        mycursor.execute( query4, (transid, account))
-                        if(mycursor.rowcount != 0):
-                            mycursor.execute(query4, (transid, account))
-                            print(from_db_cursor(mycursor))
-                        mycursor1.execute(
-                            "select transid, sender, beneficiary, date, Beneficiary_amount from trans natural join amount where trans.transid = %s and beneficiary = %s", (transid, account))
-                        if(mycursor1.rowcount != 0):
-                            mycursor.execute(query4, (transid, account))
-                            print(from_db_cursor(mycursor1))
-                        return(True,)
-                    return(False, "Incorrect transid Provided")
-                if(a == 2):
-                    b = date_input()
-                    if(b[0] is True):
-                        print('Enter Second Date')
-                        c = date_input()
-                        if(c[0]):
-                            mycursor.execute(query5, (str(account), b[1], c[1]))
-                            mycursor1.execute(query6, (b[1], c[1], account))
-                            if(mycursor.rowcount == 0 and mycursor1.rowcount == 0):
-                                print("No record Founded")
-                            else:
-                                mycursor.execute(query5, (str(account), b[1], c[1]))
-                                mycursor1.execute( query6, (b[1], c[1], account))
-                                if(mycursor.rowcount != 0):
-                                    mycursor.execute(query5, (str(account), b[1], c[1]))
-                                    print(from_db_cursor(mycursor))
-                                if(mycursor1.rowcount != 0):
-                                    mycursor1.execute(query6, (b[1], c[1], account))
-                                    print(from_db_cursor(mycursor1))
-                            return (True,)
-                        return (False, c[1])
-                    return (False, b[1])
-                b = date_input()
-                if(b[0] is True):
-                    mycursor.execute(
-                        "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where Date = %s and sender = %s", (b[1], account))
-                    mycursor1.execute(query7, (b[1], account))
-                    if(mycursor.rowcount == 0):
-                        if(mycursor1.rowcount == 0):
-                            print("No record Founded")
-                        else:
-                            mycursor1.execute(query7, (b[1], account))
-                            print(from_db_cursor(mycursor1))
+    a = input("Enter \n1. For only Transid Searched Transaction \n2. For Transaction between Specific Date Range \n3. For Transaction Made on a day\nElse press any key to main menu\n")
+    if(a.isdigit()):
+        a = int(a)
+        if(a not in range(1, 4)):
+            return(False,'\n')
+        if(a == 1):
+            transid = input("Enter transid\n")
+            if(istransid(account, transid)):
+                mycursor.execute( query4, (transid, account))
+                if(mycursor.rowcount != 0):
+                    mycursor.execute(query4, (transid, account))
+                    print(from_db_cursor(mycursor))
+                mycursor1.execute(
+                    "select transid, sender, beneficiary, date, Beneficiary_amount from trans natural join amount where trans.transid = %s and beneficiary = %s", (transid, account))
+                if(mycursor1.rowcount != 0):
+                    mycursor.execute(query4, (transid, account))
+                    print(from_db_cursor(mycursor1))
+                return(True,)
+            return(False, "Incorrect transid Provided")
+        if(a == 2):
+            b = date_input()
+            if(b[0] is True):
+                print('Enter Second Date')
+                c = date_input()
+                if(c[0]):
+                    mycursor.execute(query5, (str(account), b[1], c[1]))
+                    mycursor1.execute(query6, (b[1], c[1], account))
+                    if(mycursor.rowcount == 0 and mycursor1.rowcount == 0):
+                        print("No record Founded")
                     else:
-                        mycursor.execute(
-                            "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where Date = %s and sender = %s", (b[1], account))
-                        print(from_db_cursor(mycursor))
-                        mycursor1.execute(query7, (b[1], account))
+                        mycursor.execute(query5, (str(account), b[1], c[1]))
+                        mycursor1.execute( query6, (b[1], c[1], account))
+                        if(mycursor.rowcount != 0):
+                            mycursor.execute(query5, (str(account), b[1], c[1]))
+                            print(from_db_cursor(mycursor))
                         if(mycursor1.rowcount != 0):
-                            mycursor1.execute(query7, (b[1], account))
+                            mycursor1.execute(query6, (b[1], c[1], account))
                             print(from_db_cursor(mycursor1))
                     return (True,)
-                return (False, b[1])
+                return (False, c[1])
+            return (False, b[1])
+        b = date_input()
+        if(b[0] is True):
+            mycursor.execute(
+                "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where Date = %s and sender = %s", (b[1], account))
+            mycursor1.execute(query7, (b[1], account))
+            if(mycursor.rowcount == 0):
+                if(mycursor1.rowcount == 0):
+                    print("No record Founded")
+                else:
+                    mycursor1.execute(query7, (b[1], account))
+                    print(from_db_cursor(mycursor1))
+            else:
+                mycursor.execute(
+                    "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where Date = %s and sender = %s", (b[1], account))
+                print(from_db_cursor(mycursor))
+                mycursor1.execute(query7, (b[1], account))
+                if(mycursor1.rowcount != 0):
+                    mycursor1.execute(query7, (b[1], account))
+                    print(from_db_cursor(mycursor1))
+            return (True,)
+        return (False, b[1])
+    return(False, "\n")
 
 def close_account(account):
+    k = ''
     if(check_balance(str(account)) == '0'):
-        k = input(
-            "Are you Sure to delete Account, Press Y to continue, Else press any key to exit").lower()
+        k = input("Are you Sure to delete Account, Press Y to continue, Else press any key to exit\n").lower()
         if(k != 'y'):
-            return "Operation Cancelled"
+            return "Operation Cancelled\n"
         mycursor.execute(query3, (account,))
         mydb.commit()
-        return "Account deleted Successfully"
+        return "Account deleted Successfully\n"
     balance = check_balance(str(account))
     trans(check_balance(account), 4, account)
     mycursor.execute(query3, (account,))
     mydb.commit()
-    return f"Account deleted succesfully and Rs {balance} will be returned to you as cash"
+    return f"Account deleted succesfully and Rs {balance} will be returned to you as cash\n"
 
 def select_account(name):
     k, j = 0, []
-    l = "Srno. Name Account_Number".split()
-    mycursor.execute(
-        'select name, account from user where name like %s', (name,))
+    mycursor.execute('select name, account from user where name like %s', (name,))
+    table = PrettyTable()
+    table.field_names = ['Sr. No.', 'Name', 'Account Number']
     for i in mycursor.fetchall():
-        if(k == 0):
-            for m in l:
-                print(m, end='')
-            print()
-        j.append(i)
-        print(str(k+1)+'>', i[0], i[1], '\n')
+        j.append([k+1,i[0], i[1]])
         k += 1
     if(k == 0):
         return (False, "Account Does't Exsist\n")
+    table.add_rows(j)
+    print(table)
     while(True):
         a = input("\nEnter Serial number\n")
         if(a.isdigit()):
             a = int(a)
-            if(a > 0 and a < int(k+1)):
-                return (True, j[int(a)-1][1])
+            if(a > 0 and a < k+1):
+                return (True, j[int(a)-1][2])
             print("Please Select from given\n")
         else:
             print("Please enter digits only\n")

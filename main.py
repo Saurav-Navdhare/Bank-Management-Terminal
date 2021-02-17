@@ -167,24 +167,27 @@ while(True):
                         break
 
     if(a == 4):
-        z = 0
-        while(z == 0):
+        while(True):
             b = '%'+input("\nEnter name of Account Holder\n")+'%'
             c = Ee.select_account(b)
             if(c[0]):
                 d = Ee.trans_history(c[1])
                 if not(d[0]):
-                    print(d[1])
+                    if(d[1] == '\n'):
+                        break
+                    else:
+                        print(d[1])
+                        e = input(query1).lower()
+                        if(e != 'y'):
+                            break
                 else:
                     e = input(query1).lower()
                     if(e != 'y'):
-                        z = 1
                         break
             else:
                 print(c[1])
                 e = input(query1).lower()
                 if(e != 'y'):
-                    z = 1
                     break
     elif(a == 5):
         while(True):
