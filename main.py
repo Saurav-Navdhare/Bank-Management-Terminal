@@ -26,7 +26,7 @@ while(True):
                 if(e != 'y'):
                     break
                 continue
-            elif(d == ""):
+            if(d == ""):
                 print("\nKindly Enter Email\n")
                 e = input(query1).lower()
                 if(e != 'y'):
