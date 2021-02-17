@@ -1,8 +1,6 @@
 # This File contains all the sql functions required in the project including a) Create Account b) Transaction option with Bank -> Bank, Bank-> Customer, Customer -> Bank, c) Transaction History, d) Delete Account
 import mysql.connector
 from datetime import date, datetime
-
-import prettytable
 from date_verifier import date_input
 from credentials import Credentials
 from prettytable import from_db_cursor, PrettyTable
