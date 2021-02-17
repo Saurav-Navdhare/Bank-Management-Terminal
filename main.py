@@ -161,8 +161,7 @@ while(True):
                 e = input(query1).lower()
                 if(e != 'y'):
                     break
-                else:
-                    continue
+                continue
             print(c[1])
             e = input(query1).lower()
             if(e != 'y'):
