@@ -164,7 +164,7 @@ def trans_history(account):
                     mycursor.execute(query4, (transid, account))
                     print(from_db_cursor(mycursor1))
                 return(True,)
-            return(False, "Incorrect transid Provided")
+            return(False, "Incorrect transaction Id Provided")
         if(a == 2):
             b = date_input()
             if(b[0] is True):

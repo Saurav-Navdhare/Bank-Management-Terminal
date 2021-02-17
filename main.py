@@ -65,8 +65,7 @@ while(True):
                     z = 1
 
     if(a == 3):
-        z = 0
-        while(z in [0, 2]):
+        while(True):
             b = input(
                 "\nEnter \n1. For Bank to Bank Transaction \n2. For Cash Withdrawal \n3. For Cash Deposit\nElse any key to Main Menu\n")
             if not(b.isdigit()):
@@ -78,79 +77,60 @@ while(True):
                 if (not(c.isdigit()) or c == ""):
                     print(query3)
                     if(input(query1).lower() != 'y'):
-                        z = 1
                         break
-                    else:
-                        continue
-                else:
-                    z = 0
-                    c = int(c)
-                if(z == 0):
-                    d = '%'+input("\nEnter name of Sender's\n")+'%'
-                    m = Ee.select_account(d)
-                    if(m[0]):
-                        e = '%'+input("\nEnter name of Beneficiar's\n")+'%'
-                        n = Ee.select_account(e)
-                        if(n[0]):
-                            f = Ee.trans(c, 1, m[1], n[1])
-                            print(f)
-                            e = input(query1).lower()
-                            if(e != 'y'):
-                                z = 1
-                        else:
-                            print(n[1])
-                            e = input(query1).lower()
-                            if(e != 'y'):
-                                z = 1
-                    else:
-                        print(m[1])
+                    continue
+                c = int(c)
+                d = '%'+input("\nEnter name of Sender's\n")+'%'
+                m = Ee.select_account(d)
+                if(m[0]):
+                    e = '%'+input("\nEnter name of Beneficiar's\n")+'%'
+                    n = Ee.select_account(e)
+                    if(n[0]):
+                        f = Ee.trans(c, 1, m[1], n[1])
+                        print(f)
                         e = input(query1).lower()
                         if(e != 'y'):
-                            z = 1
+                            break
+                    else:
+                        print(n[1])
+                        e = input(query1).lower()
+                        if(e != 'y'):
+                            break
                 else:
+                    print(m[1])
                     e = input(query1).lower()
                     if(e != 'y'):
                         break
-                    else:
-                        z = 0
+
             elif(int(b) == 2):
                 c = input(query2)
                 if not(c.isdigit()):
                     print(query3)
                     e = input(query1).lower()
                     if(e != 'y'):
-                        z = 1
-                        continue
-                    else:
-                        z = 2
-                        continue
+                        break
+                c = int(c)
+                d = '%'+input("\nEnter name of Sender\n")+'%'
+                e = Ee.select_account(d)
+                if(e[0]):
+                    f = Ee.trans(c, 2, e[1])
+                    print(f)
+                    e = input(query1).lower()
+                    if(e != 'y'):
+                        break
                 else:
-                    z = 0
-                if(z == 0):
-                    c = int(c)
-                    d = '%'+input("\nEnter name of Sender\n")+'%'
-                    e = Ee.select_account(d)
-                    if(e[0]):
-                        f = Ee.trans(c, 2, e[1])
-                        print(f)
-                        e = input(query1).lower()
-                        if(e != 'y'):
-                            z = 1
-                    else:
-                        print(e[1])
-                        e = input(query1).lower()
-                        if(e != 'y'):
-                            z = 1
+                    print(e[1])
+                    e = input(query1).lower()
+                    if(e != 'y'):
+                        break
             elif(int(b) == 3):
                 c = input(query2)
                 if (not(c.isdigit()) or c == ""):
                     print(query3)
                     e = input(query1).lower()
                     if(e != 'y'):
-                        z = 1
                         break
-                else:
-                    c = int(c)
+                c = int(c)
                 d = '%'+input("\nEnter name of Beneficiar\n")+'%'
                 e = Ee.select_account(d)
                 if(e[0]):
@@ -158,12 +138,11 @@ while(True):
                     print(f)
                     e = input(query1).lower()
                     if(e != 'y'):
-                        z = 1
+                        break
                 else:
                     print(e[1])
                     e = input(query1).lower()
                     if(e != 'y'):
-                        z = 1
                         break
 
     if(a == 4):
@@ -175,20 +154,20 @@ while(True):
                 if not(d[0]):
                     if(d[1] == '\n'):
                         break
-                    else:
-                        print(d[1])
-                        e = input(query1).lower()
-                        if(e != 'y'):
-                            break
-                else:
+                    print(d[1])
                     e = input(query1).lower()
                     if(e != 'y'):
                         break
-            else:
-                print(c[1])
                 e = input(query1).lower()
                 if(e != 'y'):
                     break
+                else:
+                    continue
+            print(c[1])
+            e = input(query1).lower()
+            if(e != 'y'):
+                break
+
     elif(a == 5):
         while(True):
             b = '%'+input('\nEnter Name of Customer\n')+'%'
