@@ -20,13 +20,13 @@ while(True):
             b = input("\nEnter Name\n")
             c = input("\nEnter Phone number\n")
             d = input("\nEnter Email Id\n")
-            if (b == ""):
+            if (b == str()):
                 print("\nKindly Enter Name\n")
                 e = input(query1).lower()
                 if(e != 'y'):
                     break
                 continue
-            if(d == ""):
+            if(d == str()):
                 print("\nKindly Enter Email\n")
                 e = input(query1).lower()
                 if(e != 'y'):

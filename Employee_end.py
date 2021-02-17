@@ -22,11 +22,9 @@ mycursor.execute('create table if not exists trans(Sender char(17) references us
 mycursor.execute('create table if not exists amount(transid varchar(25) not null Primary Key,Sender_amount int(16), Beneficiary_amount int(16) )')
 
 def check_details(email):
-    mycursor.execute('Select email from user')
-    if(mycursor):
-        for j in mycursor:
-            if(email in j):
-                return (False, 'Email Already Exists in database kindly enter other Email')
+    mycursor.execute('Select email from user where email = %s',(email,))
+    if(mycursor.rowcount !=0):
+        return (False, 'Email Already Exists in database kindly enter other Email')
     return (True,)
 
 def new_user(name, phone, email):
@@ -189,23 +187,21 @@ def trans_history(account):
             return (False, b[1])
         b = date_input()
         if(b[0] is True):
+            k = 0
             mycursor.execute(
                 "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where Date = %s and sender = %s", (b[1], account))
-            mycursor1.execute(query7, (b[1], account))
-            if(mycursor.rowcount == 0):
-                if(mycursor1.rowcount == 0):
-                    print("No record Founded")
-                else:
-                    mycursor1.execute(query7, (b[1], account))
-                    print(from_db_cursor(mycursor1))
-            else:
+            if(mycursor.rowcount != 0):
                 mycursor.execute(
-                    "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where Date = %s and sender = %s", (b[1], account))
+                "select transid, sender, beneficiary, date, sender_amount from trans natural join amount where Date = %s and sender = %s", (b[1], account))
                 print(from_db_cursor(mycursor))
-                mycursor1.execute(query7, (b[1], account))
-                if(mycursor1.rowcount != 0):
-                    mycursor1.execute(query7, (b[1], account))
-                    print(from_db_cursor(mycursor1))
+                k+=1
+            mycursor.execute(query7, (b[1], account))
+            if(mycursor.rowcount != 0):
+                mycursor.execute(query7, (b[1], account))
+                print(from_db_cursor(mycursor))
+                k+=1
+            if(k==0):
+                print("No Record Available\n")
             return (True,)
         return (False, b[1])
     return(False, "\n")
