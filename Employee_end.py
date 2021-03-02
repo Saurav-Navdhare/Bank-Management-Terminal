@@ -209,14 +209,9 @@ def history(account):
     return(False, "\n")
 
 def close_account(account):
-    k = ''
-    if(check_balance(str(account)) == '0'):
-        k = input("Are you Sure to delete Account, Press Y to continue, Else press any key to exit\n").lower()
-        if(k != 'y'):
-            return "Operation Cancelled\n"
-        mycursor.execute(query3, (account,))
-        mydb.commit()
-        return "Account deleted Successfully\n"
+    k = input("Are you Sure to delete Account, Press Y to continue, Else press any key to exit\n").lower()
+    if(k != 'y'):
+        return "Operation Cancelled\n"
     balance = check_balance(str(account))
     trans(check_balance(account), 4, account)
     mycursor.execute(query3, (account,))

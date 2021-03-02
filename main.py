@@ -12,7 +12,7 @@ while(True):
         4 - Transaction History
         5 - Close Account
         Else press any key to exit\n''')
-    if a not in ['1', '2', '3', '4', '5']:
+    if a not in "1 2 3 4 5":
         break
     a = int(a)
     if(a == 1):
