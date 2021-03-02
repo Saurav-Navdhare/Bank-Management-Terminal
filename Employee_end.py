@@ -47,8 +47,8 @@ def new_user(name, phone, email):
     mydb.commit()
     return (True, "Successfully new Account Created with account number - "+account+"\nFirst Transaction id is " + account+'1')
 
-def account_details(reciever):
-    mycursor.execute("Select account, name, email, Balance, DOC from user where account = %s", (reciever,))
+def account_details(receiver):
+    mycursor.execute("Select account, name, email, Balance, DOC from user where account = %s", (receiver,))
     print(from_db_cursor(mycursor))
 
 def check_balance(account):
@@ -66,28 +66,28 @@ def transid(account):
     for i in mycursor:
         return (account + str(int(i[0][16:])+1))
 
-def trans(amount, mode, account, reciever='Self'):
+def trans(amount, mode, account, receiver='Self'):
     if(mode == 1):
         if(int(check_balance(account))-1000 >= int(amount)):
             if(amount < 1):
                 return "Please Enter Valid Amount"
-            mycursor.execute("Select account, name, email from user where account = %s", (reciever,))
+            mycursor.execute("Select account, name, email from user where account = %s", (receiver,))
             print(from_db_cursor(mycursor))
-            a = input('Press Y if the above details about the reciever are correct\n').lower()
+            a = input('Press Y if the above details about the receiver are correct\n').lower()
             if(a == 'y'):
                 tid = transid(account)
                 mycursor.execute("insert into trans values(%s,%s,%s,%s,%s)", (
-                    account, reciever, tid, date.today().strftime('%Y/%m/%d'), amount))
+                    account, receiver, tid, date.today().strftime('%Y/%m/%d'), amount))
                 mydb.commit()
                 mycursor.execute(query2, (tid, int(check_balance(
-                    str(account))) - int(amount), int(check_balance(str(reciever))) + int(amount)))
+                    str(account))) - int(amount), int(check_balance(str(receiver))) + int(amount)))
                 mydb.commit()
                 mycursor.execute("Update user set balance = balance - %s, transid = %s where account = %s", (int(amount), tid, account))
                 mydb.commit()
-                mycursor.execute("Update user set balance = balance + %s where account = %s", (int(amount), reciever))
+                mycursor.execute("Update user set balance = balance + %s where account = %s", (int(amount), receiver))
                 mycursor.execute(query1, (tid, account))
                 mydb.commit()
-                return f"{amount} Rs has been transferred from {account} to {reciever} with transaction id {tid}"
+                return f"{amount} Rs has been transferred from {account} to {receiver} with transaction id {tid}"
             return "Transaction is Aborted"
         return "Insufficient Balance"
 
@@ -131,7 +131,7 @@ def trans(amount, mode, account, reciever='Self'):
         mycursor.execute(query3, (account,))
         mydb.commit()
         mycursor.execute(
-            "update user set balance = balance +%s, transid = %s where account = %s", (amount, tid, reciever))
+            "update user set balance = balance +%s, transid = %s where account = %s", (amount, tid, receiver))
         mydb.commit()
         return str(amount) + " Rs has been withdrawn from " + account + " with transid "+tid+" and Account Has been Closed"
 
