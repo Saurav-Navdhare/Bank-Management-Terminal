@@ -83,7 +83,7 @@ while(True):
                 d = '%'+input("\nEnter name of Sender's\n")+'%'
                 m = Ee.select_account(d)
                 if(m[0]):
-                    e = '%'+input("\nEnter name of Beneficiar's\n")+'%'
+                    e = '%'+input("\nEnter name of Beneficiary\n")+'%'
                     n = Ee.select_account(e)
                     if(n[0]):
                         f = Ee.trans(c, 1, m[1], n[1])
@@ -131,7 +131,7 @@ while(True):
                     if(e != 'y'):
                         break
                 c = int(c)
-                d = '%'+input("\nEnter name of Beneficiar\n")+'%'
+                d = '%'+input("\nEnter name of Beneficiary\n")+'%'
                 e = Ee.select_account(d)
                 if(e[0]):
                     f = Ee.trans(c, 3, e[1])

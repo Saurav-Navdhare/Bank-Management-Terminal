@@ -36,6 +36,10 @@ def new_user(name, phone, email):
         return(False, "Kindly Enter Name within 20 Characters\n")
     if(len(email) >= 35):
         return(False, "Kindly Enter Email within 35 characters\n")
+    elif(email.count('@') != 1):
+        return(False, "Kindly Enter 1 '@' in email\n")
+    elif(email[0] == '@'):
+        return(False, "Kindly enter your username of email before entering '@'\n")
 
     account = datetime.today().strftime('%Y%m%d%H%M%S%f')[:16]
     mycursor.execute("Insert into user values(%s,%s,%s,%s,%s,%s,%s,%s)",
