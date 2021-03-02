@@ -150,7 +150,7 @@ while(True):
             b = '%'+input("\nEnter name of Account Holder\n")+'%'
             c = Ee.select_account(b)
             if(c[0]):
-                d = Ee.trans_history(c[1])
+                d = Ee.history(c[1])
                 if not(d[0]):
                     if(d[1] == '\n'):
                         break

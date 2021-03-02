@@ -143,12 +143,10 @@ def istransid(account, transid):
             return True
     return False
 
-def trans_history(account):
+def history(account):
     a = input("Enter \n1. For only Transid Searched Transaction \n2. For Transaction between Specific Date Range \n3. For Transaction Made on a day\nElse press any key to main menu\n")
-    if(a.isdigit()):
+    if(a in '1 2 3'):
         a = int(a)
-        if(a not in range(1, 4)):
-            return(False,'\n')
         if(a == 1):
             transid = input("Enter transid\n")
             if(istransid(account, transid)):
