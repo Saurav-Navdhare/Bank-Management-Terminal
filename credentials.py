@@ -1,6 +1,4 @@
-Credentials = {
-    'host': 'www.db4free.net',
-    'user': 'bank_management',
-    'passwd': '1234567890',
-    'database': 'sobank'
-}
+Credentials = {'host' : 'Enter your host Here',
+               'user' : 'Enter your username Here',
+               'passwd' : 'Enter your Password Here',
+               'database' : 'Enter your Databse here'}

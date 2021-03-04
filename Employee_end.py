@@ -108,7 +108,7 @@ def trans(amount, mode, account, receiver='Self'):
             mydb.commit()
             mycursor.execute(query1, (tid, account))
             mydb.commit()
-            return str(amount) + " Rs has been withdrawn from " + account
+            return f"{amount} Rs has been withdrawn from {account} with transaction id = {tid}"
         return "Insufficient Balance"
 
     if(mode == 3):
@@ -122,7 +122,7 @@ def trans(amount, mode, account, receiver='Self'):
         mydb.commit()
         mycursor.execute("update user set transid = %s where account = %s", (tid, account))
         mydb.commit()
-        return f'{amount} rs has been credited to {account}'
+        return f'{amount} rs has been credited to {account} with transaction id = {tid}'
 
     if(mode == 4):
         tid = str(int(transid(account))+1)
